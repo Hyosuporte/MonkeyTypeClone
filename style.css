@@ -1,16 +1,16 @@
 :root {
     color-scheme: light dark;
-    --greem: #00b755;
+    --white: #d1d0c5;
     --yellow: #daaf38;
     --red: #ca4754;
-    --black: #222;
-    --gray: #999;
+    --black: #323437;
+    --gray: #646669;
 }
 
 body {
     background: var(--black);
     font-family: monospace;
-    font-size: 16px;
+    font-size: 2em;
     display: grid;
     justify-content: center;
     padding: 32px;
@@ -32,6 +32,7 @@ input {
     top: 0;
     left: 0;
     pointer-events: none;
+    opacity: 0;
 }
 
 p {
@@ -53,21 +54,23 @@ letter {
     color: var(--gray);
     position: relative;
 
+    transition: all .1s ease-in-out;
+
     &.active::before {
         content: '|';
         color: var(--yellow);
-        font-size: 15px;
+        font-size: 25px;
         position: absolute;
-        left: -80%;
+        left: -50%;
         animation: 1s blink infinite ease-in-out;
     }
 
     &.active.is-last::before {
-        left: 71%;
+        left: 50%;
     }
 
     &.correct {
-        color: var(--greem);
+        color: var(--white);
     }
 
     &.incorrect {
@@ -75,6 +78,33 @@ letter {
     }
 }
 
+#buttons {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+
+}
+
+#results {
+    display: none;
+    flex-direction: column;
+}
+
+h2 {
+    font-weight: 400;
+    opacity: .4;
+    margin: 0;
+    font-size: 16px;
+}
+
+h3 {
+    font-weight: 400;
+    margin: 0;
+    font-size: 24px;
+    color: var(--yellow);
+}
 
 @keyframes blink {
 

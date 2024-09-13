@@ -4,7 +4,7 @@ const $time = document.querySelector("time");
 const $paragraph = document.querySelector("p");
 const $input = document.querySelector("input");
 
-const INITIAL_TIME = 30;
+const INITIAL_TIME = 3;
 
 let currentTime = INITIAL_TIME;
 let words = [];
@@ -36,6 +36,7 @@ function timer(currentTime) {
 
     if (currentTime == 0) {
       clearInterval(intervalId);
+      gameOver();
     }
   }, 1000);
 }
@@ -134,9 +135,31 @@ function onkeyUp() {
 function initGame() {
   currentTime = INITIAL_TIME;
   $time.textContent = currentTime;
-  timer(currentTime);
   generateParagraph();
+  timer(currentTime);
   playing = false;
+}
+
+function gameOver() {
+  const $game = document.querySelector("#game");
+  const $results = document.querySelector("#results");
+  const $wpm = $results.querySelector("h3");
+  const $accuracy = $results.querySelector("h3:last-child");
+
+  $game.style.display = "none";
+  $results.style.display = "flex";
+
+  const correctWords = $paragraph.querySelectorAll("word.correct").length;
+  const correctLetter = $paragraph.querySelectorAll("letter.correct").length;
+  const incorrectLetter =
+    $paragraph.querySelectorAll("letter.incorrect").length;
+
+  const totalLetters = correctLetter + incorrectLetter;
+  const accuracy = totalLetters > 0 ? (correctLetter / totalLetters) * 100 : 0;
+
+  const wpm = (correctWords * 60) / 10;
+  $wpm.textContent = wpm;
+  $accuracy.textContent = `${accuracy.toFixed(2)}%`;
 }
 
 function initEvents() {
