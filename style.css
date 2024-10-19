@@ -54,7 +54,7 @@ letter {
     color: var(--gray);
     position: relative;
 
-    transition: all .1s ease-in-out;
+    transition: all .09s ease-in-out;
 
     &.active::before {
         content: '|';

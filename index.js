@@ -3,12 +3,14 @@ import { words as INITIAL_WORDS } from "./data.js";
 const $time = document.querySelector("time");
 const $paragraph = document.querySelector("p");
 const $input = document.querySelector("input");
+const $button = document.querySelector("button");
 
-const INITIAL_TIME = 3;
+const INITIAL_TIME = 30;
 
 let currentTime = INITIAL_TIME;
 let words = [];
-let playing;
+let playing = false;
+let intervalId;
 
 function generateParagraph() {
   words = INITIAL_WORDS.toSorted(() => Math.random() - 0.5).slice(0, 50);
@@ -30,7 +32,7 @@ function generateParagraph() {
 }
 
 function timer(currentTime) {
-  const intervalId = setInterval(() => {
+  intervalId = setInterval(() => {
     currentTime--;
     $time.textContent = currentTime;
 
@@ -46,7 +48,6 @@ function onkeydown(event) {
   const $currentLetter = $paragraph.querySelector("letter.active");
 
   const { key } = event;
-  console.log(key);
 
   if (key == " ") {
     event.preventDefault();
@@ -136,8 +137,6 @@ function initGame() {
   currentTime = INITIAL_TIME;
   $time.textContent = currentTime;
   generateParagraph();
-  timer(currentTime);
-  playing = false;
 }
 
 function gameOver() {
@@ -165,10 +164,20 @@ function gameOver() {
 function initEvents() {
   document.addEventListener("keydown", () => {
     $input.focus();
+    if (!playing) {
+      playing = true;
+      timer(currentTime);
+    }
   });
 
   $input.addEventListener("keydown", onkeydown);
   $input.addEventListener("keyup", onkeyUp);
+  $button.addEventListener("click", () => {
+    playing = false;
+    clearInterval(intervalId);
+    initGame();
+    $input.value = ""
+  });
 }
 
 initEvents();
